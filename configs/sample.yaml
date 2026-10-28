@@ -5,6 +5,11 @@ variant: hi-small-sample
 data:
   raw_dir: tests/fixtures/amlworld_hi_small_sample
 
+xgb:
+  n_estimators: 80
+  early_stopping_rounds: 10
+  num_threads: 2
+
 gnn:
   hidden: 16
   neighbors: [5, 3]

@@ -23,7 +23,7 @@ os.environ.setdefault("MLFLOW_DISABLE_TELEMETRY", "true")
 os.environ.setdefault("MLFLOW_DISABLE_AGENT_HINT", "1")
 
 _PIPELINE_RUN_NAME = "run"
-_PARAM_SECTIONS = ("data", "split", "features", "gnn", "seed")
+_PARAM_SECTIONS = ("data", "split", "features", "xgb", "gnn", "seed")
 _PARAM_MAX_CHARS = 250
 _SQLITE_PREFIX = "sqlite:///"
 _INVALID_METRIC_CHARS = re.compile(r"[^A-Za-z0-9_\-. /]")
@@ -139,10 +139,10 @@ def log_stage(
     """Log the settings, metrics, duration and manifest of a finished stage.
 
     Call it inside `stage_run` for the same stage. The values go to the active
-    run. The settings are the `data`, `split`, `features`, `gnn` and `seed`
-    sections, flattened to dotted keys with values cut to 250 characters.
-    Metric names that MLflow rejects get underscores in place of the invalid
-    characters.
+    run. The settings are the `data`, `split`, `features`, `xgb`, `gnn` and
+    `seed` sections, flattened to dotted keys with values cut to 250
+    characters. Metric names that MLflow rejects get underscores in place of
+    the invalid characters.
 
     Args:
         config: The run config.

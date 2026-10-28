@@ -73,6 +73,22 @@ class FeaturesConfig(_Section):
     exclude: list[str] = Field(default_factory=list)
 
 
+class XgbConfig(_Section):
+    """XGBoost stage."""
+
+    use_gnn: bool = True
+    n_estimators: int = 400
+    early_stopping_rounds: int = 30
+    max_depth: int = 6
+    learning_rate: float = 0.1
+    subsample: float = 0.8
+    colsample_bytree: float = 0.8
+    min_child_weight: float = 1.0
+    reg_lambda: float = 1.0
+    scale_pos_weight: float = 1.0
+    num_threads: int = 8
+
+
 class GnnConfig(_Section):
     """GNN stage. The defaults are sized for the 10-minute `run` budget."""
 
@@ -118,6 +134,7 @@ class Config(_Section):
     data: DataConfig = Field(default_factory=DataConfig)
     split: SplitConfig
     features: FeaturesConfig = Field(default_factory=FeaturesConfig)
+    xgb: XgbConfig = Field(default_factory=XgbConfig)
     gnn: GnnConfig = Field(default_factory=GnnConfig)
     tracking: TrackingConfig = Field(default_factory=TrackingConfig)
 

@@ -12,6 +12,12 @@ split:
   test_end: 2022-09-11
   crossfit_blocks: [[1, 2], [3, 4], [5, 6]]
 
+xgb:
+  use_gnn: true
+  n_estimators: 400
+  early_stopping_rounds: 30
+  num_threads: 8
+
 gnn:
   hidden: 64
   layers: 2

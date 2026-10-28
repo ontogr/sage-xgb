@@ -18,6 +18,7 @@ STAGE_COMMANDS: dict[str, str] = {
     "prepare": "Sort transactions and write the split table",
     "features": "Build the account window feature table",
     "gnn": "Fit the cross-fit GNNs and write out-of-fold scores",
+    "train-xgb": "Train XGBoost and write the model bundle",
 }
 
 
@@ -43,7 +44,7 @@ def build_parser() -> argparse.ArgumentParser:
     for name, help_text in STAGE_COMMANDS.items():
         _add_config_arguments(subcommands.add_parser(name, help=help_text))
     run = subcommands.add_parser(
-        "run", help="Run the pipeline stages in order with skipping"
+        "run", help="Run prepare, features, gnn and train-xgb with skipping"
     )
     _add_config_arguments(run)
     run.add_argument("--force", action="store_true", help="rerun every stage")
