@@ -133,4 +133,4 @@ mlflow-ui:
 	uv run mlflow ui --backend-store-uri sqlite:///artifacts/mlflow.db
 
 docker-build:
-	docker build --target train -t sage-xgb:train .
+	docker build --platform linux/amd64 --target train -t sage-xgb:train .
