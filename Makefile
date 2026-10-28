@@ -1,4 +1,4 @@
-.PHONY: help sync test cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean
+.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample mlflow-ui
 
 export UV_LOCKED = 1
 
@@ -7,6 +7,8 @@ help:
 	@echo "  make help             - Show this help"
 	@echo "  make sync             - Sync project and install all dependencies"
 	@echo "  make test             - Run unit tests with coverage"
+	@echo "  make test-e2e         - Run end-to-end stage tests on the committed sample"
+	@echo "  make test-integration - Run integration tests (requires network and credentials)"
 	@echo "  make cov              - Run tests and generate coverage reports"
 	@echo "  make cov-report       - Generate the HTML coverage report"
 	@echo "  make lint-typing      - Type check with ty"
@@ -22,6 +24,9 @@ help:
 	@echo "  make build            - Build sdist and wheel into dist/"
 	@echo "  make wheel-test       - Install the built wheel in a clean environment and import it"
 	@echo "  make clean            - Remove build artifacts, caches and run outputs"
+	@echo "  make download         - Download HI-Small from Kaggle (requires KAGGLE_* credentials)"
+	@echo "  make sample           - Rebuild the committed sample from data/"
+	@echo "  make mlflow-ui        - Open the MLflow UI on the local SQLite store"
 
 sync:
 	uv sync --locked --all-groups --all-extras
@@ -33,13 +38,26 @@ test:
 		--cov-report=xml \
 		--junitxml=pytest-results.xml
 
+# Runs serially because the session fixtures run the pipeline once and share the
+# result. The addopts override drops the xdist and rerun settings from pyproject.toml.
+test-e2e:
+	uv run pytest tests/e2e -v \
+		-o "addopts=--strict-markers --strict-config --disable-socket --allow-unix-socket -ra" \
+		--junitxml=pytest-e2e-results.xml
+
+# Integration tests call real services, so sockets stay enabled.
+test-integration:
+	uv run pytest tests/integration -v \
+		-o "addopts=--strict-markers --strict-config -ra" \
+		--junitxml=pytest-integration-results.xml
+
 cov-report:
 	uv run coverage html
 
 cov: test cov-report
 
 lint-typing:
-	uv run ty check sage_xgb/ tests
+	uv run ty check sage_xgb/ scripts/ tests
 
 lint-style:
 	uv run ruff check .
@@ -87,3 +105,12 @@ clean:
 	find . -type d -name .pytest_cache -exec rm -rf {} +
 	find . -type d -name .ruff_cache -exec rm -rf {} +
 	find . -type d -name .ty_cache -exec rm -rf {} +
+
+download:
+	uv run sage-xgb download --config configs/hi_small.yaml
+
+sample:
+	uv run python scripts/build_sample.py
+
+mlflow-ui:
+	uv run mlflow ui --backend-store-uri sqlite:///artifacts/mlflow.db
