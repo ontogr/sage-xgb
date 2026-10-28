@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 530" width="880" height="530" role="img" aria-labelledby="pipeline-title pipeline-desc">
+<title id="pipeline-title">The sage-xgb pipeline</title>
+<desc id="pipeline-desc">prepare feeds features and gnn, and both feed train-xgb. train-xgb writes the model bundle that report reads. tune and report are separate commands.</desc>
+<style>
+.panel{fill:#faf8f3;stroke:#e4e0d6}
+.title{font:600 16px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.stage{font:600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;letter-spacing:.08em;fill:#6b655f}
+.box{fill:#f3f0e9;stroke:#cbc6b9}
+.box-title{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.box-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.chip{fill:#ffffff;stroke:#cbc6b9}
+.chip-name{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.chip-tag{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8}
+.node{fill:#eaf0fe;stroke:#1d4ed8;stroke-width:1.25}
+.node-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.node-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.25}
+.focal-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#ffffff}
+.focal-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff;opacity:.9}
+.band{fill:none;stroke:#cbc6b9;stroke-dasharray:3 4}
+.edge{fill:none;stroke:#6b655f;stroke-width:1.5}
+.edge-blue{fill:none;stroke:#1d4ed8;stroke-width:1.5}
+.edge-dash{fill:none;stroke:#1d4ed8;stroke-width:1.5;stroke-dasharray:5 4}
+.edge-soft{fill:none;stroke:#6b655f;stroke-width:1.25;stroke-dasharray:5 4}
+.tick{stroke:#6b655f;stroke-width:1.25}
+.elabel{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f;letter-spacing:.04em}
+.elabel-blue{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8;letter-spacing:.04em}
+.note{font:12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#6b655f}
+.note-ink{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.arrowhead{fill:#6b655f}
+.arrowhead-blue{fill:#1d4ed8}
+.dot{fill:#ffffff;stroke:#6b655f;stroke-width:1.5}
+.dot-focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.5}
+.dot-open{fill:#faf8f3;stroke:#1d4ed8;stroke-width:1.75}
+.dot-num{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1f2937}
+.dot-num-focal{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff}
+</style>
+<defs><marker id="ah-pipeline" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker><marker id="ah-blue-pipeline" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead-blue" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="panel" x="0.5" y="0.5" width="879" height="529" rx="10"/>
+<text class="title" x="28" y="36">The sage-xgb pipeline</text>
+<text class="note" x="28" y="58">Four stages run in order. Each writes parquet or JSON files and a manifest.</text>
+<rect class="band" x="180" y="78" width="684" height="276" rx="10"/>
+<text class="stage" x="196" y="100">SAGE-XGB RUN</text>
+<rect class="chip" x="28" y="188" width="132" height="34" rx="5"/>
+<text class="chip-name" x="40" y="209">Trans.csv</text>
+<text class="chip-tag" x="148" y="209" text-anchor="end">raw</text>
+<text class="box-sub" x="28" y="240">rows are not in time order</text>
+<rect class="box" x="196" y="150" width="190" height="100" rx="6"/>
+<text class="box-title" x="210" y="174">prepare</text>
+<text class="box-sub" x="210" y="194">sort by minute and row id</text>
+<text class="box-sub" x="210" y="208">day, split, USD, node ids</text>
+<text class="box-sub" x="210" y="222">transactions.parquet</text>
+<text class="box-sub" x="210" y="236">accounts.parquet</text>
+<rect class="box" x="428" y="108" width="190" height="86" rx="6"/>
+<text class="box-title" x="442" y="132">features</text>
+<text class="box-sub" x="442" y="152">windows over [t - w, t)</text>
+<text class="box-sub" x="442" y="166">49 columns, no labels</text>
+<text class="box-sub" x="442" y="180">features.parquet</text>
+<rect class="node" x="428" y="214" width="190" height="100" rx="6"/>
+<text class="node-name" x="442" y="238">gnn (GraphSAGE)</text>
+<text class="node-sub" x="442" y="258">3 forward-chained fits</text>
+<text class="node-sub" x="442" y="272">score + embedding per row</text>
+<text class="node-sub" x="442" y="286">gnn_scores.parquet</text>
+<text class="node-sub" x="442" y="300">gnn_fit_1 to 3.pt</text>
+<rect class="focal" x="676" y="150" width="176" height="114" rx="6"/>
+<text class="focal-name" x="690" y="174">train-xgb</text>
+<text class="focal-sub" x="690" y="194">early stop: validation</text>
+<text class="focal-sub" x="690" y="208">threshold: val F1</text>
+<text class="focal-sub" x="690" y="222">booster.json</text>
+<text class="focal-sub" x="690" y="236">feature_columns.json</text>
+<text class="focal-sub" x="690" y="250">metadata.json</text>
+<path class="edge" d="M160 205L196 205" marker-end="url(#ah-pipeline)"/>
+<path class="edge" d="M386 178L396 178Q404 178 404 170L404 159Q404 151 412 151L428 151" marker-end="url(#ah-pipeline)"/>
+<path class="edge" d="M386 222L396 222Q404 222 404 230L404 256Q404 264 412 264L428 264" marker-end="url(#ah-pipeline)"/>
+<path class="edge" d="M618 151L632 151Q640 151 640 159L640 182Q640 190 648 190L676 190" marker-end="url(#ah-pipeline)"/>
+<path class="edge-blue" d="M618 264L646 264Q654 264 654 256L654 234Q654 226 662 226L676 226" marker-end="url(#ah-blue-pipeline)"/>
+<text class="elabel-blue" x="624" y="284">OUT-OF-FOLD SCORES</text>
+<path class="edge-soft" d="M284 250L284 326Q284 334 292 334L756 334Q764 334 764 326L764 264" marker-end="url(#ah-pipeline)"/>
+<text class="elabel" x="524" y="328" text-anchor="middle">TRAIN AND VALIDATION LABELS</text>
+<text class="stage" x="28" y="396">SEPARATE COMMANDS, NOT PART OF RUN</text>
+<rect class="box" x="196" y="408" width="300" height="72" rx="6"/>
+<text class="box-title" x="210" y="432">tune</text>
+<text class="box-sub" x="210" y="452">Optuna on validation PR-AUC</text>
+<text class="box-sub" x="210" y="466">writes best.yaml, a full config</text>
+<rect class="box" x="644" y="408" width="208" height="100" rx="6"/>
+<text class="box-title" x="658" y="432">report</text>
+<text class="box-sub" x="658" y="452">test and Tail, scored once</text>
+<text class="box-sub" x="658" y="466">reads features, GNN scores</text>
+<text class="box-sub" x="658" y="480">report.json</text>
+<text class="box-sub" x="658" y="494">history.jsonl</text>
+<path class="edge" d="M816 264L816 408" marker-end="url(#ah-pipeline)"/>
+<text class="elabel" x="806" y="384" text-anchor="end">BUNDLE</text>
+</svg>

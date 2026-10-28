@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 380" width="880" height="380" role="img" aria-labelledby="labels-title labels-desc">
+<title id="labels-title">Label access</title>
+<desc id="labels-desc">Three loaders read the prepared table. Only report reads test and Tail labels, through its own reader.</desc>
+<style>
+.panel{fill:#faf8f3;stroke:#e4e0d6}
+.title{font:600 16px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.stage{font:600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;letter-spacing:.08em;fill:#6b655f}
+.box{fill:#f3f0e9;stroke:#cbc6b9}
+.box-title{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.box-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.chip{fill:#ffffff;stroke:#cbc6b9}
+.chip-name{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.chip-tag{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8}
+.node{fill:#eaf0fe;stroke:#1d4ed8;stroke-width:1.25}
+.node-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.node-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.25}
+.focal-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#ffffff}
+.focal-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff;opacity:.9}
+.band{fill:none;stroke:#cbc6b9;stroke-dasharray:3 4}
+.edge{fill:none;stroke:#6b655f;stroke-width:1.5}
+.edge-blue{fill:none;stroke:#1d4ed8;stroke-width:1.5}
+.edge-dash{fill:none;stroke:#1d4ed8;stroke-width:1.5;stroke-dasharray:5 4}
+.edge-soft{fill:none;stroke:#6b655f;stroke-width:1.25;stroke-dasharray:5 4}
+.tick{stroke:#6b655f;stroke-width:1.25}
+.elabel{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f;letter-spacing:.04em}
+.elabel-blue{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8;letter-spacing:.04em}
+.note{font:12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#6b655f}
+.note-ink{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.arrowhead{fill:#6b655f}
+.arrowhead-blue{fill:#1d4ed8}
+.dot{fill:#ffffff;stroke:#6b655f;stroke-width:1.5}
+.dot-focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.5}
+.dot-open{fill:#faf8f3;stroke:#1d4ed8;stroke-width:1.75}
+.dot-num{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1f2937}
+.dot-num-focal{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff}
+</style>
+<defs><marker id="ah-labels" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker><marker id="ah-blue-labels" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead-blue" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="panel" x="0.5" y="0.5" width="879" height="379" rx="10"/>
+<text class="title" x="28" y="36">Who may read which labels</text>
+<text class="note" x="28" y="58">The test labels stay unopened until report asks for them.</text>
+<rect class="box" x="28" y="140" width="196" height="100" rx="6"/>
+<text class="box-title" x="42" y="164">transactions.parquet</text>
+<text class="box-sub" x="42" y="184">every row, every split</text>
+<text class="box-sub" x="42" y="198">with is_laundering</text>
+<rect class="box" x="300" y="70" width="270" height="64" rx="6"/>
+<text class="box-title" x="314" y="94">split.labelled_rows</text>
+<text class="box-sub" x="314" y="114">train and val</text>
+<rect class="box" x="618" y="70" width="234" height="64" rx="6"/>
+<text class="box-title" x="632" y="94">gnn fits, train-xgb, tune</text>
+<text class="box-sub" x="632" y="114">the only stages that train</text>
+<path class="edge" d="M224 165L254 165Q262 165 262 157L262 110Q262 102 270 102L300 102" marker-end="url(#ah-labels)"/>
+<path class="edge" d="M570 102L618 102" marker-end="url(#ah-labels)"/>
+<rect class="box" x="300" y="158" width="270" height="64" rx="6"/>
+<text class="box-title" x="314" y="182">split.unlabelled_rows</text>
+<text class="box-sub" x="314" y="202">label column dropped</text>
+<rect class="box" x="618" y="158" width="234" height="64" rx="6"/>
+<text class="box-title" x="632" y="182">features, graphs, scoring</text>
+<text class="box-sub" x="632" y="202">none of them reads a label</text>
+<path class="edge" d="M224 190L300 190" marker-end="url(#ah-labels)"/>
+<path class="edge" d="M570 190L618 190" marker-end="url(#ah-labels)"/>
+<rect class="node" x="300" y="246" width="270" height="64" rx="6"/>
+<text class="node-name" x="314" y="270">report holdout reader</text>
+<text class="node-sub" x="314" y="290">test or tail, report only</text>
+<rect class="focal" x="618" y="246" width="234" height="64" rx="6"/>
+<text class="focal-name" x="632" y="270">report only</text>
+<text class="focal-sub" x="632" y="290">the only holdout reader</text>
+<path class="edge-blue" d="M224 215L254 215Q262 215 262 223L262 270Q262 278 270 278L300 278" marker-end="url(#ah-blue-labels)"/>
+<path class="edge-blue" d="M570 278L618 278" marker-end="url(#ah-blue-labels)"/>
+<text class="note" x="28" y="346">split.labelled_rows raises HoldoutAccessError for test or Tail labels.</text>
+</svg>

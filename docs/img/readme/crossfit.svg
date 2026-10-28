@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 390" width="880" height="390" role="img" aria-labelledby="crossfit-title crossfit-desc">
+<title id="crossfit-title">Forward-chained cross-fit</title>
+<desc id="crossfit-desc">Fit 1 trains on block 1 and scores block 2. Fit 2 trains on blocks 1 and 2 and scores block 3. Fit 3 trains on blocks 1 to 3 and scores validation, test and Tail. XGBoost trains on the out-of-fold scores of days 3 to 6.</desc>
+<style>
+.panel{fill:#faf8f3;stroke:#e4e0d6}
+.title{font:600 16px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.stage{font:600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;letter-spacing:.08em;fill:#6b655f}
+.box{fill:#f3f0e9;stroke:#cbc6b9}
+.box-title{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.box-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.chip{fill:#ffffff;stroke:#cbc6b9}
+.chip-name{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.chip-tag{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8}
+.node{fill:#eaf0fe;stroke:#1d4ed8;stroke-width:1.25}
+.node-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.node-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.25}
+.focal-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#ffffff}
+.focal-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff;opacity:.9}
+.band{fill:none;stroke:#cbc6b9;stroke-dasharray:3 4}
+.edge{fill:none;stroke:#6b655f;stroke-width:1.5}
+.edge-blue{fill:none;stroke:#1d4ed8;stroke-width:1.5}
+.edge-dash{fill:none;stroke:#1d4ed8;stroke-width:1.5;stroke-dasharray:5 4}
+.edge-soft{fill:none;stroke:#6b655f;stroke-width:1.25;stroke-dasharray:5 4}
+.tick{stroke:#6b655f;stroke-width:1.25}
+.elabel{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f;letter-spacing:.04em}
+.elabel-blue{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8;letter-spacing:.04em}
+.note{font:12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#6b655f}
+.note-ink{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.arrowhead{fill:#6b655f}
+.arrowhead-blue{fill:#1d4ed8}
+.dot{fill:#ffffff;stroke:#6b655f;stroke-width:1.5}
+.dot-focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.5}
+.dot-open{fill:#faf8f3;stroke:#1d4ed8;stroke-width:1.75}
+.dot-num{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1f2937}
+.dot-num-focal{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff}
+</style>
+<defs><marker id="ah-crossfit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker><marker id="ah-blue-crossfit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead-blue" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="panel" x="0.5" y="0.5" width="879" height="389" rx="10"/>
+<text class="title" x="28" y="36">Cross-fit over day blocks</text>
+<text class="note" x="28" y="58">Each GraphSAGE GNN scores only days that come after every day it trained on.</text>
+<text class="stage" x="204" y="92" text-anchor="middle">BLOCK 1</text>
+<text class="box-sub" x="204" y="108" text-anchor="middle">days 1-2</text>
+<text class="stage" x="320" y="92" text-anchor="middle">BLOCK 2</text>
+<text class="box-sub" x="320" y="108" text-anchor="middle">days 3-4</text>
+<text class="stage" x="436" y="92" text-anchor="middle">BLOCK 3</text>
+<text class="box-sub" x="436" y="108" text-anchor="middle">days 5-6</text>
+<text class="stage" x="552" y="92" text-anchor="middle">VALIDATION</text>
+<text class="box-sub" x="552" y="108" text-anchor="middle">days 7-8</text>
+<text class="stage" x="668" y="92" text-anchor="middle">TEST</text>
+<text class="box-sub" x="668" y="108" text-anchor="middle">days 9-10</text>
+<text class="stage" x="784" y="92" text-anchor="middle">TAIL</text>
+<text class="box-sub" x="784" y="108" text-anchor="middle">days 11-18</text>
+<text class="note-ink" x="28" y="144">Fit 1</text>
+<text class="box-sub" x="28" y="158">block 1</text>
+<rect class="node" x="150" y="124" width="108" height="42" rx="6"/>
+<text class="node-name" x="204" y="150" text-anchor="middle">trains</text>
+<rect class="box" x="266" y="124" width="108" height="42" rx="6"/>
+<text class="box-title" x="320" y="150" text-anchor="middle">scores</text>
+<text class="note-ink" x="28" y="196">Fit 2</text>
+<text class="box-sub" x="28" y="210">blocks 1-2</text>
+<rect class="node" x="150" y="176" width="108" height="42" rx="6"/>
+<text class="node-name" x="204" y="202" text-anchor="middle">trains</text>
+<rect class="node" x="266" y="176" width="108" height="42" rx="6"/>
+<text class="node-name" x="320" y="202" text-anchor="middle">trains</text>
+<rect class="box" x="382" y="176" width="108" height="42" rx="6"/>
+<text class="box-title" x="436" y="202" text-anchor="middle">scores</text>
+<text class="note-ink" x="28" y="248">Fit 3</text>
+<text class="box-sub" x="28" y="262">blocks 1-3</text>
+<rect class="node" x="150" y="228" width="108" height="42" rx="6"/>
+<text class="node-name" x="204" y="254" text-anchor="middle">trains</text>
+<rect class="node" x="266" y="228" width="108" height="42" rx="6"/>
+<text class="node-name" x="320" y="254" text-anchor="middle">trains</text>
+<rect class="node" x="382" y="228" width="108" height="42" rx="6"/>
+<text class="node-name" x="436" y="254" text-anchor="middle">trains</text>
+<rect class="box" x="498" y="228" width="108" height="42" rx="6"/>
+<text class="box-title" x="552" y="254" text-anchor="middle">scores</text>
+<rect class="box" x="614" y="228" width="108" height="42" rx="6"/>
+<text class="box-title" x="668" y="254" text-anchor="middle">scores</text>
+<rect class="box" x="730" y="228" width="108" height="42" rx="6"/>
+<text class="box-title" x="784" y="254" text-anchor="middle">scores</text>
+<text class="stage" x="28" y="300">WHAT XGBOOST USES</text>
+<rect class="focal" x="266" y="312" width="224" height="60" rx="6"/>
+<text class="focal-name" x="280" y="336">Training rows</text>
+<text class="focal-sub" x="280" y="356">out-of-fold scores, days 3-6</text>
+<rect class="box" x="498" y="312" width="108" height="60" rx="6"/>
+<text class="box-title" x="512" y="336">Early stop</text>
+<text class="box-sub" x="512" y="356">threshold</text>
+<rect class="box" x="614" y="312" width="224" height="60" rx="6"/>
+<text class="box-title" x="628" y="336">Report only</text>
+<text class="box-sub" x="628" y="356">test and Tail scores</text>
+</svg>
