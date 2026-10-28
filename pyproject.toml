@@ -183,6 +183,15 @@ invalid-assignment = "ignore"
 invalid-argument-type = "ignore"
 unresolved-attribute = "ignore"
 
+# torch_geometric ships loose stubs for MessagePassing subclasses.
+[[tool.ty.overrides]]
+include = ["sage_xgb/gnn/model.py"]
+[tool.ty.overrides.rules]
+missing-argument = "ignore"
+invalid-argument-type = "ignore"
+invalid-method-override = "ignore"
+call-non-callable = "ignore"
+
 [tool.bandit]
 exclude_dirs = ["/tests", "/.venv", "/build", "/dist"]
 skips = ["B101"]

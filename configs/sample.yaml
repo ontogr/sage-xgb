@@ -4,3 +4,12 @@ variant: hi-small-sample
 
 data:
   raw_dir: tests/fixtures/amlworld_hi_small_sample
+
+gnn:
+  hidden: 16
+  neighbors: [5, 3]
+  batch_size: 512
+  score_batch_size: 2048
+  neg_sample_rate: 0.2
+  epochs: 2
+  num_threads: 1

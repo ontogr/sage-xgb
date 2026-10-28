@@ -36,6 +36,7 @@ def make_config(
         [
             f"paths.artifacts_dir={artifacts_dir}",
             f"data.raw_dir={raw_dir}",
+            "gnn.num_threads=1",
             f"tracking.enabled={str(tracking).lower()}",
             *overrides,
         ],
@@ -69,4 +70,11 @@ def prepared_config(sample_config: Config) -> Config:
 def featured_config(sample_config: Config) -> Config:
     """Run `prepare` and `features` on the sample and return the config."""
     pipeline.run(sample_config, through="features")
+    return sample_config
+
+
+@pytest.fixture(scope="session")
+def gnn_config(sample_config: Config) -> Config:
+    """Run `prepare`, `features` and `gnn` on the sample and return the config."""
+    pipeline.run(sample_config, through="gnn")
     return sample_config

@@ -5,7 +5,7 @@ from __future__ import annotations
 import copy
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
@@ -73,6 +73,35 @@ class FeaturesConfig(_Section):
     exclude: list[str] = Field(default_factory=list)
 
 
+class GnnConfig(_Section):
+    """GNN stage. The defaults are sized for the 10-minute `run` budget."""
+
+    encoder: Literal["edge_sage", "sage"] = "edge_sage"
+    hidden: int = 32
+    layers: int = 2
+    embedding_dim: int = 8
+    neighbors: list[int] = Field(default_factory=lambda: [5, 3])
+    batch_size: int = 2048
+    score_batch_size: int = 8192
+    lr: float = 0.005
+    epochs: int = 1
+    neg_sample_rate: float = 0.02
+    snapshot_lag_days: int = 0
+    history_days: int = 7
+    num_threads: int = 8
+    num_workers: int = 0
+
+    @model_validator(mode="after")
+    def _check_shapes(self) -> GnnConfig:
+        if len(self.neighbors) != self.layers:
+            msg = "gnn.neighbors needs one entry per layer"
+            raise ValueError(msg)
+        if not 0.0 < self.neg_sample_rate <= 1.0:
+            msg = "gnn.neg_sample_rate must be in (0, 1]"
+            raise ValueError(msg)
+        return self
+
+
 class TrackingConfig(_Section):
     """MLflow tracking."""
 
@@ -89,6 +118,7 @@ class Config(_Section):
     data: DataConfig = Field(default_factory=DataConfig)
     split: SplitConfig
     features: FeaturesConfig = Field(default_factory=FeaturesConfig)
+    gnn: GnnConfig = Field(default_factory=GnnConfig)
     tracking: TrackingConfig = Field(default_factory=TrackingConfig)
 
 

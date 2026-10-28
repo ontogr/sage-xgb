@@ -17,6 +17,7 @@ STAGE_COMMANDS: dict[str, str] = {
     "download": "Download the raw AMLworld files from Kaggle",
     "prepare": "Sort transactions and write the split table",
     "features": "Build the account window feature table",
+    "gnn": "Fit the cross-fit GNNs and write out-of-fold scores",
 }
 
 
@@ -28,7 +29,7 @@ def _add_config_arguments(parser: argparse.ArgumentParser) -> None:
         action="append",
         default=[],
         metavar="KEY=VALUE",
-        help="override a config value, for example seed=11",
+        help="override a config value, for example gnn.epochs=2",
     )
 
 
