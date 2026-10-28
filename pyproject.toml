@@ -1,0 +1,196 @@
+[build-system]
+requires = ["uv_build>=0.11.19,<0.13.0"]
+build-backend = "uv_build"
+
+[project]
+name = "sage-xgb"
+version = "0.0.1"
+description = "Trains GraphSAGE graph neural network output into an XGBoost classifier that flags money-laundering transactions in IBM AMLworld."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+keywords = ["anti-money-laundering", "graph-neural-network", "graphsage", "xgboost", "amlworld", "pytorch-geometric"]
+authors = [
+  { name = "Ashwin Mathur", email = "ashwinm400@gmail.com" },
+  { name = "Varun Mathur", email = "varunm500@gmail.com" },
+]
+maintainers = [
+  { name = "Ashwin Mathur", email = "ashwinm400@gmail.com" },
+  { name = "Varun Mathur", email = "varunm500@gmail.com" },
+]
+classifiers = [
+  "Programming Language :: Python",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "polars>=1.30",
+  "numpy>=2.0",
+  "xgboost-cpu>=3.0",
+  "scikit-learn>=1.5",
+  "torch>=2.14,<2.15",
+  "torch-geometric>=2.7",
+  "pyg-lib; sys_platform == 'linux' and platform_machine == 'x86_64'",
+  "pydantic>=2.0",
+  "pydantic-settings>=2.0",
+  "pyyaml>=6.0",
+  "mlflow>=3.7",
+  "optuna>=4.0",
+]
+
+[project.optional-dependencies]
+kaggle = ["kagglehub>=0.3"]
+
+[project.scripts]
+sage-xgb = "sage_xgb.cli:main"
+
+[project.urls]
+Issues = "https://github.com/ontogr/sage-xgb/issues"
+Source = "https://github.com/ontogr/sage-xgb"
+
+[tool.uv.build-backend]
+module-root = ""
+module-name = "sage_xgb"
+
+[tool.uv]
+default-groups = ["dev"]
+required-version = "==0.12.23"
+
+# PyPI serves a PyTorch build with several GB of CUDA libraries on Linux. The
+# lock takes torch from the CPU index instead. The pyg-lib wheels are built for
+# one torch minor version, so the torch bound above and the flat index below
+# move together.
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+pyg-lib = { index = "pyg-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pyg-cpu"
+url = "https://data.pyg.org/whl/torch-2.14.0%2Bcpu.html"
+format = "flat"
+explicit = true
+
+[dependency-groups]
+dev = [
+  "bandit>=1.9.4",
+  "coverage[toml]>=7.13.0",
+  "pre-commit>=4.5.1",
+  "pytest>=9.0.2",
+  "pytest-cov>=7.0.0",
+  "pytest-mock>=3.15.1",
+  "pytest-rerunfailures>=16.2",
+  "pytest-socket>=0.7.0",
+  "pytest-xdist>=3.8.0",
+  "ruff>=0.16.10",
+  "ty>=0.0.32",
+  "typos>=1.51.1",
+  "twine>=6.0",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+include = ["*.py", "pyproject.toml", "*.ipynb"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+  "A",   # flake8-builtins
+  "B",   # flake8-bugbear
+  "COM", # flake8-commas
+  "C4",  # flake8-comprehensions
+  "RET", # flake8-return
+  "SIM", # flake8-simplify
+  "ICN", # flake8-import-conventions
+  "Q",   # flake8-quotes
+  "RSE", # flake8-raise
+  "D",   # pydocstyle
+  "E",   # pycodestyle
+  "F",   # pyflakes
+  "I",   # isort
+  "W",   # pycodestyle
+  "N",   # pep8-naming
+  "ERA", # eradicate
+  "PL",  # pylint
+]
+ignore = [
+  "PLR2004", # Replace magic number with named constant
+  "COM812",  # Trailing comma missing (conflicts with the formatter)
+  "PLR0913", # Too many arguments
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401", "F403", "F811"]
+"tests/**/*.py" = ["N802", "N999", "D101", "D102", "D103", "D104"]
+
+[tool.ruff.lint.pep8-naming]
+ignore-names = ["X*", "setUp"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sage_xgb"]
+lines-after-imports = 2
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 88
+
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests/unit"]
+addopts = "--strict-markers --strict-config --disable-socket --allow-unix-socket -q -ra -n auto --dist loadscope"
+markers = [
+  "integration: Integration test that requires external services (Kaggle, an MLflow server)",
+  "slow: Slow running tests",
+  "enable_socket: Allow socket connections (auto-applied to integration tests)",
+  "flaky: Re-run flaky tests up to N times",
+]
+log_cli = false
+
+[tool.coverage.run]
+source_pkgs = ["sage_xgb"]
+omit = ["tests/*", "*/__init__.py"]
+branch = true
+parallel = false
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "pragma: no cover",
+  "raise NotImplementedError",
+]
+
+[tool.ty.environment]
+root = [".", "tests"]
+
+[[tool.ty.overrides]]
+include = ["tests/**"]
+[tool.ty.overrides.rules]
+invalid-assignment = "ignore"
+invalid-argument-type = "ignore"
+unresolved-attribute = "ignore"
+
+[tool.bandit]
+exclude_dirs = ["/tests", "/.venv", "/build", "/dist"]
+skips = ["B101"]
+
+[tool.typos.files]
+# The committed sample holds redistributed AMLworld rows, so ids and hashes look
+# like words. data/ holds the raw files and is not tracked.
+extend-exclude = [
+  "tests/fixtures/**",
+  "data/**",
+]
