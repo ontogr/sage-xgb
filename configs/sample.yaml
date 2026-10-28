@@ -1,0 +1,6 @@
+extends: hi_small.yaml
+
+variant: hi-small-sample
+
+data:
+  raw_dir: tests/fixtures/amlworld_hi_small_sample

@@ -1,0 +1,13 @@
+variant: hi-small
+seed: 7
+
+data:
+  name: HI-Small
+  raw_dir: data
+
+split:
+  window_start: 2022-09-01
+  train_end: 2022-09-07
+  val_end: 2022-09-09
+  test_end: 2022-09-11
+  crossfit_blocks: [[1, 2], [3, 4], [5, 6]]
