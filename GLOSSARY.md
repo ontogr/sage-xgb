@@ -54,4 +54,3 @@ _Avoid_: graph state, cache
 **Out-of-fold score**:
 A GNN score for a Transaction produced by a GNN that never trained on that Transaction's day or any later day.
 _Avoid_: held-out prediction
-
