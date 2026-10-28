@@ -63,3 +63,10 @@ def prepared_config(sample_config: Config) -> Config:
     """Run `prepare` on the sample and return the config."""
     pipeline.run(sample_config, through="prepare")
     return sample_config
+
+
+@pytest.fixture(scope="session")
+def featured_config(sample_config: Config) -> Config:
+    """Run `prepare` and `features` on the sample and return the config."""
+    pipeline.run(sample_config, through="features")
+    return sample_config

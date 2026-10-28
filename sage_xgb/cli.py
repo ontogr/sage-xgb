@@ -16,6 +16,7 @@ from sage_xgb.config import ConfigError, load_config
 STAGE_COMMANDS: dict[str, str] = {
     "download": "Download the raw AMLworld files from Kaggle",
     "prepare": "Sort transactions and write the split table",
+    "features": "Build the account window feature table",
 }
 
 

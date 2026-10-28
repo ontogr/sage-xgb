@@ -67,6 +67,12 @@ class SplitConfig(_Section):
         return self
 
 
+class FeaturesConfig(_Section):
+    """Feature table options."""
+
+    exclude: list[str] = Field(default_factory=list)
+
+
 class TrackingConfig(_Section):
     """MLflow tracking."""
 
@@ -82,6 +88,7 @@ class Config(_Section):
     paths: PathsConfig = Field(default_factory=PathsConfig)
     data: DataConfig = Field(default_factory=DataConfig)
     split: SplitConfig
+    features: FeaturesConfig = Field(default_factory=FeaturesConfig)
     tracking: TrackingConfig = Field(default_factory=TrackingConfig)
 
 
