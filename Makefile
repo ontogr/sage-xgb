@@ -1,4 +1,4 @@
-.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample mlflow-ui
+.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample train train-sample mlflow-ui
 
 export UV_LOCKED = 1
 
@@ -26,6 +26,8 @@ help:
 	@echo "  make clean            - Remove build artifacts, caches and run outputs"
 	@echo "  make download         - Download HI-Small from Kaggle (requires KAGGLE_* credentials)"
 	@echo "  make sample           - Rebuild the committed sample from data/"
+	@echo "  make train            - Run the full pipeline on HI-Small"
+	@echo "  make train-sample     - Run the full pipeline on the committed sample"
 	@echo "  make mlflow-ui        - Open the MLflow UI on the local SQLite store"
 
 sync:
@@ -111,6 +113,12 @@ download:
 
 sample:
 	uv run python scripts/build_sample.py
+
+train:
+	uv run sage-xgb run --config configs/hi_small.yaml
+
+train-sample:
+	uv run sage-xgb run --config configs/sample.yaml
 
 mlflow-ui:
 	uv run mlflow ui --backend-store-uri sqlite:///artifacts/mlflow.db

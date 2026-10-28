@@ -78,3 +78,10 @@ def gnn_config(sample_config: Config) -> Config:
     """Run `prepare`, `features` and `gnn` on the sample and return the config."""
     pipeline.run(sample_config, through="gnn")
     return sample_config
+
+
+@pytest.fixture(scope="session")
+def pipeline_config(sample_config: Config) -> Config:
+    """Run every pipeline stage on the sample and return the config."""
+    pipeline.run(sample_config)
+    return sample_config

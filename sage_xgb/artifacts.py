@@ -19,18 +19,20 @@ from sage_xgb import __version__
 from sage_xgb.config import Config
 
 
-PIPELINE_STAGES: tuple[str, ...] = ("prepare", "features", "gnn")
+PIPELINE_STAGES: tuple[str, ...] = ("prepare", "features", "gnn", "train-xgb")
 
 _SECTIONS: dict[str, tuple[str, ...]] = {
     "prepare": ("data", "split"),
     "features": ("features",),
     "gnn": ("gnn", "split", "seed"),
+    "train-xgb": ("xgb", "features", "split", "seed"),
 }
 
 _UPSTREAM: dict[str, tuple[str, ...]] = {
     "prepare": (),
     "features": ("prepare",),
     "gnn": ("prepare",),
+    "train-xgb": ("prepare", "features", "gnn"),
 }
 
 MANIFEST_NAME = "manifest.json"
@@ -68,8 +70,14 @@ def config_hash(config: Config, sections: Sequence[str]) -> str:
 
 
 def upstream_stages(config: Config, stage: str) -> tuple[str, ...]:
-    """Return the stages whose manifests feed `stage`."""
-    return _UPSTREAM[stage]
+    """Return the stages whose manifests feed `stage`.
+
+    `train-xgb` ignores the GNN manifest when `xgb.use_gnn` is false.
+    """
+    upstream = _UPSTREAM[stage]
+    if stage == "train-xgb" and not config.xgb.use_gnn:
+        return tuple(name for name in upstream if name != "gnn")
+    return upstream
 
 
 def manifest_path(config: Config, stage: str) -> Path:

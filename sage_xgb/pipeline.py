@@ -18,6 +18,7 @@ STAGE_FUNCTIONS: dict[str, str] = {
     "prepare": "sage_xgb.data.prepare:run",
     "features": "sage_xgb.features.table:run",
     "gnn": "sage_xgb.gnn.crossfit:run",
+    "train-xgb": "sage_xgb.train_xgb:run",
 }
 
 _StageFunction = Callable[[Config], dict[str, float]]
