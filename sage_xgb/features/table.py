@@ -119,7 +119,7 @@ def run(config: Config) -> dict[str, float]:
         `rows` is the number of Transactions and `columns` is the number of
         feature columns, which excludes `row_id`.
     """
-    prepared = split.unlabelled_rows(prepare.read_transactions(config))
+    prepared = split.unlabelled_rows(prepare.scan_transactions(config)).collect()
     features = build_features(prepared, exclude=config.features.exclude)
     directory = artifacts.ensure_stage_dir(config, "features")
     features.write_parquet(directory / FEATURES_FILE, compression="zstd")

@@ -1,7 +1,7 @@
 """The only module that turns a timestamp into a split or a day block.
 
 Every other module asks this one. Test and Tail labels stay unopened until
-`report` asks for them with `allow_holdout=True`.
+`report` reads them through its own holdout reader, not through this module.
 """
 
 from __future__ import annotations
@@ -76,37 +76,28 @@ def xgb_training_days(split: SplitConfig) -> list[int]:
 
 
 @overload
-def labelled_rows(
-    frame: pl.DataFrame, splits: Sequence[str], *, allow_holdout: bool = False
-) -> pl.DataFrame: ...
+def labelled_rows(frame: pl.DataFrame, splits: Sequence[str]) -> pl.DataFrame: ...
 @overload
+def labelled_rows(frame: pl.LazyFrame, splits: Sequence[str]) -> pl.LazyFrame: ...
 def labelled_rows(
-    frame: pl.LazyFrame, splits: Sequence[str], *, allow_holdout: bool = False
-) -> pl.LazyFrame: ...
-def labelled_rows(
-    frame: pl.DataFrame | pl.LazyFrame,
-    splits: Sequence[str],
-    *,
-    allow_holdout: bool = False,
+    frame: pl.DataFrame | pl.LazyFrame, splits: Sequence[str]
 ) -> pl.DataFrame | pl.LazyFrame:
     """Return the rows of the requested splits, with `is_laundering` kept.
 
     Args:
         frame: Prepared transactions with `split` and `is_laundering`.
-        splits: Split names to keep.
-        allow_holdout: Must be true to ask for `test` or `tail`. Only `report`
-            sets it.
+        splits: Split names to keep. `test` and `tail` are refused.
 
     Raises:
         ValueError: A split name is unknown.
-        HoldoutAccessError: `test` or `tail` was requested without permission.
+        HoldoutAccessError: `test` or `tail` was requested.
     """
     unknown = [name for name in splits if name not in SPLITS]
     if unknown:
         msg = f"unknown split names: {unknown}"
         raise ValueError(msg)
     held_out = [name for name in splits if name in HOLDOUT_SPLITS]
-    if held_out and not allow_holdout:
+    if held_out:
         msg = f"labels of {held_out} may only be read by the report stage"
         raise HoldoutAccessError(msg)
     return frame.filter(pl.col("split").is_in(list(splits)))

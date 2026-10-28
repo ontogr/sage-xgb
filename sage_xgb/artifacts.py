@@ -138,3 +138,20 @@ def is_fresh(config: Config, stage: str) -> bool:
         return False
     directory = stage_dir(config, stage)
     return all((directory / name).exists() for name in manifest["outputs"])
+
+
+class StaleArtifactError(RuntimeError):
+    """Error for a stage whose manifest does not match the config or its inputs."""
+
+
+def require_fresh(config: Config, stage: str) -> None:
+    """Raise if `stage` or any stage upstream of it is not fresh.
+
+    Raises:
+        StaleArtifactError: A manifest is missing, differs from the current
+            config or upstream manifests, or lists a missing output.
+    """
+    for name in (*upstream_stages(config, stage), stage):
+        if name in PIPELINE_STAGES and not is_fresh(config, name):
+            msg = f"stage {name!r} is missing or out of date, run it first"
+            raise StaleArtifactError(msg)
