@@ -19,7 +19,7 @@ import optuna
 import pytest
 
 from sage_xgb import artifacts, tune
-from sage_xgb.config import Config, dump_config, load_config
+from sage_xgb.config import Config, ConfigError, dump_config, load_config
 
 
 SAMPLE_DIR = Path(__file__).parents[1] / "fixtures" / "amlworld_hi_small_sample"
@@ -193,3 +193,70 @@ class TestTune:
         """Test and Tail labels do not change any completed trial."""
         assert flipped_tune.flipped_rows > 0
         assert flipped_tune.trials == tune_scenario.first
+
+
+class TestTuneSettings:
+    """Rejected settings, a changed study, interrupted trials and the time limit."""
+
+    def test_study_from_other_settings_is_refused(
+        self, tune_scenario: _TuneScenario
+    ) -> None:
+        """Refuse to resume a study after a setting that changes scores changes."""
+        before = _trial_records(tune_scenario.config)
+        changed = tune_scenario.config.model_copy(
+            update={"seed": tune_scenario.config.seed + 1}
+        )
+
+        with pytest.raises(ConfigError, match="different"):
+            tune.run(changed)
+
+        assert _trial_records(tune_scenario.config) == before
+
+    def test_searching_use_gnn_is_refused(
+        self, tmp_path: Path, config_factory: Callable[..., Config]
+    ) -> None:
+        """Refuse a search space that could switch the GNN off."""
+        config = config_factory(
+            tmp_path,
+            "tune.space={xgb.use_gnn: {kind: categorical, choices: [true, false]}}",
+        )
+
+        with pytest.raises(ConfigError, match="xgb.use_gnn"):
+            tune.run(config)
+
+    def test_failed_and_abandoned_trials_do_not_count_toward_the_target(
+        self, tmp_path: Path, config_factory: Callable[..., Config]
+    ) -> None:
+        """Run a full target of new trials next to a failed and a running record."""
+        config = config_factory(tmp_path, "tune.n_trials=1", GENEROUS_TIMEOUT)
+        artifacts.ensure_stage_dir(config, "tune")
+        study = optuna.create_study(
+            study_name=config.variant,
+            storage=_storage_url(config),
+            direction="maximize",
+        )
+        study.add_trial(optuna.trial.create_trial(state=optuna.trial.TrialState.FAIL))
+        study.ask()
+
+        result = tune.run(config)
+
+        assert result["n_completed"] == 1
+        assert result["n_trials"] == 3
+
+    def test_time_limit_covers_the_shared_stages(
+        self, tmp_path: Path, config_factory: Callable[..., Config]
+    ) -> None:
+        """Start no trial when the limit passes during the shared stages."""
+        config = config_factory(tmp_path, "tune.timeout_minutes=0.00001")
+
+        with pytest.raises(RuntimeError, match="no tune trial completed"):
+            tune.run(config)
+
+    def test_best_yaml_is_replaced_without_leaving_a_temporary_file(
+        self, tune_scenario: _TuneScenario
+    ) -> None:
+        """Leave only best.yaml after the write."""
+        directory = artifacts.stage_dir(tune_scenario.config, "tune")
+
+        assert not list(directory.glob("*.tmp"))
+        assert (directory / "best.yaml").exists()

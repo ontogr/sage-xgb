@@ -133,6 +133,29 @@ class SpaceEntry(_Section):
     high: float | None = None
     choices: list[Any] | None = None
 
+    @model_validator(mode="after")
+    def _check_range(self) -> SpaceEntry:
+        if self.kind == "categorical":
+            if not self.choices:
+                msg = "a categorical search entry needs a non-empty choices list"
+                raise ValueError(msg)
+            return self
+        if self.low is None or self.high is None:
+            msg = f"a {self.kind} search entry needs low and high"
+            raise ValueError(msg)
+        if self.low > self.high:
+            msg = f"search entry low {self.low} is above high {self.high}"
+            raise ValueError(msg)
+        if self.kind == "log_float" and self.low <= 0:
+            msg = "a log_float search entry needs low above 0"
+            raise ValueError(msg)
+        if self.kind == "int" and (
+            float(self.low) != int(self.low) or float(self.high) != int(self.high)
+        ):
+            msg = "an int search entry needs whole-number low and high"
+            raise ValueError(msg)
+        return self
+
 
 def _default_space() -> dict[str, SpaceEntry]:
     return {

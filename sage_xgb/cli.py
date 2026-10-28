@@ -69,10 +69,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     except ConfigError as error:
         sys.stderr.write(f"config error: {error}\n")
         return 2
-    if args.command == "run":
-        pipeline.run(config, force=args.force, from_stage=args.from_stage)
-    else:
-        pipeline.execute_stage(config, args.command)
+    try:
+        if args.command == "run":
+            pipeline.run(config, force=args.force, from_stage=args.from_stage)
+        else:
+            pipeline.execute_stage(config, args.command)
+    except ConfigError as error:
+        sys.stderr.write(f"config error: {error}\n")
+        return 2
     return 0
 
 

@@ -105,8 +105,9 @@ def run(
     The stages run from `prepare` up to and including `through`, which defaults
     to the last stage. A stage runs when `force` is true, when it is at or after
     `from_stage`, or when `artifacts.is_fresh` is false. Other stages are skipped
-    and logged. `report` is never part of a run. When the run ends, a table of
-    the stage timings is logged.
+    and logged. `report` is never part of a run. Runs for the same variant and
+    artifacts directory wait for each other. When the run ends, a table of the
+    stage timings is logged.
 
     Args:
         config: The run config.
@@ -121,7 +122,7 @@ def run(
     last_index = len(stages) - 1 if through is None else _stage_index(through)
     from_index = len(stages) if from_stage is None else _stage_index(from_stage)
     timings: list[tuple[str, str, float]] = []
-    with tracking.pipeline_run(config):
+    with artifacts.pipeline_lock(config), tracking.pipeline_run(config):
         for index, stage in enumerate(stages[: last_index + 1]):
             if force or index >= from_index or not artifacts.is_fresh(config, stage):
                 started = time.perf_counter()
