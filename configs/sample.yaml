@@ -18,3 +18,7 @@ gnn:
   neg_sample_rate: 0.2
   epochs: 2
   num_threads: 1
+
+tune:
+  n_trials: 3
+  timeout_minutes: 2

@@ -1,4 +1,4 @@
-.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample train train-sample report mlflow-ui
+.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample train train-sample tune report mlflow-ui
 
 export UV_LOCKED = 1
 
@@ -28,6 +28,7 @@ help:
 	@echo "  make sample           - Rebuild the committed sample from data/"
 	@echo "  make train            - Run the full pipeline on HI-Small"
 	@echo "  make train-sample     - Run the full pipeline on the committed sample"
+	@echo "  make tune             - Tune hyperparameters on HI-Small"
 	@echo "  make report           - Score the test and Tail splits once"
 	@echo "  make mlflow-ui        - Open the MLflow UI on the local SQLite store"
 
@@ -120,6 +121,9 @@ train:
 
 train-sample:
 	uv run sage-xgb run --config configs/sample.yaml
+
+tune:
+	uv run sage-xgb tune --config configs/hi_small.yaml
 
 report:
 	uv run sage-xgb report --config configs/hi_small.yaml

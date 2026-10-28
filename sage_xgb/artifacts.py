@@ -9,9 +9,11 @@ with the same inputs writes the same bytes.
 
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
-from collections.abc import Sequence
+from collections.abc import Generator, Sequence
+from contextlib import AbstractContextManager, contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -155,3 +157,24 @@ def require_fresh(config: Config, stage: str) -> None:
         if name in PIPELINE_STAGES and not is_fresh(config, name):
             msg = f"stage {name!r} is missing or out of date, run it first"
             raise StaleArtifactError(msg)
+
+
+@contextmanager
+def exclusive_lock(path: Path) -> Generator[None]:
+    """Hold an exclusive lock on the file `path` until the block ends.
+
+    The file is created if it does not exist, and its parent directory must exist.
+    """
+    with path.open("a") as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(handle, fcntl.LOCK_UN)
+
+
+def pipeline_lock(config: Config) -> AbstractContextManager[None]:
+    """Return a lock that serializes stage execution for one variant."""
+    directory = config.paths.artifacts_dir / config.variant
+    directory.mkdir(parents=True, exist_ok=True)
+    return exclusive_lock(directory / ".pipeline.lock")

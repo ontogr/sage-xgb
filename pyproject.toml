@@ -196,6 +196,10 @@ call-non-callable = "ignore"
 exclude_dirs = ["/tests", "/.venv", "/build", "/dist"]
 skips = ["B101"]
 
+[tool.typos.default.extend-words]
+# Optuna's sampler is called TPE.
+TPE = "TPE"
+
 [tool.typos.files]
 # The committed sample holds redistributed AMLworld rows, so ids and hashes look
 # like words. data/ holds the raw files and is not tracked.
