@@ -11,3 +11,17 @@ split:
   val_end: 2022-09-09
   test_end: 2022-09-11
   crossfit_blocks: [[1, 2], [3, 4], [5, 6]]
+
+gnn:
+  hidden: 64
+  layers: 2
+  embedding_dim: 8
+  neighbors: [10, 5]
+  batch_size: 2048
+  score_batch_size: 8192
+  lr: 0.005
+  epochs: 2
+  neg_sample_rate: 0.05
+  snapshot_lag_days: 0
+  history_days: 7
+  num_threads: 8
