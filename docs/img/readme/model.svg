@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430" width="880" height="430" role="img" aria-labelledby="model-title model-desc">
+<title id="model-title">GraphSAGE GNN model</title>
+<desc id="model-desc">A node encoder feeds GraphSAGE layers, and gnn.encoder picks their type. With edge_sage, each message carries the edge encoding. With sage, messages carry neighbor states only. The Account embeddings and the edge encoding feed an edge head that outputs embedding_dim values and one logit.</desc>
+<style>
+.panel{fill:#faf8f3;stroke:#e4e0d6}
+.title{font:600 16px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.stage{font:600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;letter-spacing:.08em;fill:#6b655f}
+.box{fill:#f3f0e9;stroke:#cbc6b9}
+.box-title{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.box-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.chip{fill:#ffffff;stroke:#cbc6b9}
+.chip-name{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.chip-tag{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8}
+.node{fill:#eaf0fe;stroke:#1d4ed8;stroke-width:1.25}
+.node-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.node-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.25}
+.focal-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#ffffff}
+.focal-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff;opacity:.9}
+.band{fill:none;stroke:#cbc6b9;stroke-dasharray:3 4}
+.edge{fill:none;stroke:#6b655f;stroke-width:1.5}
+.edge-blue{fill:none;stroke:#1d4ed8;stroke-width:1.5}
+.edge-dash{fill:none;stroke:#1d4ed8;stroke-width:1.5;stroke-dasharray:5 4}
+.edge-soft{fill:none;stroke:#6b655f;stroke-width:1.25;stroke-dasharray:5 4}
+.tick{stroke:#6b655f;stroke-width:1.25}
+.elabel{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f;letter-spacing:.04em}
+.elabel-blue{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8;letter-spacing:.04em}
+.note{font:12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#6b655f}
+.note-ink{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.arrowhead{fill:#6b655f}
+.arrowhead-blue{fill:#1d4ed8}
+.dot{fill:#ffffff;stroke:#6b655f;stroke-width:1.5}
+.dot-focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.5}
+.dot-open{fill:#faf8f3;stroke:#1d4ed8;stroke-width:1.75}
+.dot-num{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1f2937}
+.dot-num-focal{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff}
+</style>
+<defs><marker id="ah-model" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker><marker id="ah-blue-model" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead-blue" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="panel" x="0.5" y="0.5" width="879" height="429" rx="10"/>
+<text class="title" x="28" y="36">GraphSAGE encoder and edge head</text>
+<text class="note" x="28" y="58">Sizes come from the gnn config: hidden, layers and embedding_dim.</text>
+<rect class="box" x="28" y="90" width="204" height="100" rx="6"/>
+<text class="box-title" x="42" y="114">Node encoder</text>
+<text class="box-sub" x="42" y="134">12 node features</text>
+<text class="box-sub" x="42" y="148">sent, received: count,</text>
+<text class="box-sub" x="42" y="162">USD sum, USD max</text>
+<text class="box-sub" x="42" y="176">Linear + ReLU</text>
+<rect class="box" x="28" y="252" width="204" height="112" rx="6"/>
+<text class="box-title" x="42" y="276">Edge encoder</text>
+<text class="box-sub" x="42" y="296">11 edge attributes</text>
+<text class="box-sub" x="42" y="310">7 continuous, direction,</text>
+<text class="box-sub" x="42" y="324">3 category codes</text>
+<text class="box-sub" x="42" y="338">embedded, Linear + ReLU</text>
+<rect class="node" x="290" y="90" width="316" height="150" rx="6"/>
+<text class="node-name" x="304" y="114">GraphSAGE layer x layers</text>
+<text class="node-sub" x="304" y="134">edge_sage: per-edge message = Linear of</text>
+<text class="node-sub" x="304" y="148">neighbor state + edge encoding, separate</text>
+<text class="node-sub" x="304" y="162">weights for forward and reverse edges</text>
+<text class="node-sub" x="304" y="176">sage: PyG SAGEConv, neighbor states only</text>
+<text class="node-sub" x="304" y="190">both: mean over sampled neighbors, plus</text>
+<text class="node-sub" x="304" y="204">Linear of own state, then ReLU</text>
+<rect class="chip" x="646" y="140" width="170" height="36" rx="5"/>
+<text class="chip-name" x="658" y="162">Account embeddings</text>
+<rect class="focal" x="610" y="252" width="242" height="126" rx="6"/>
+<text class="focal-name" x="624" y="276">Edge head</text>
+<text class="focal-sub" x="624" y="296">concat sender, receiver,</text>
+<text class="focal-sub" x="624" y="310">edge encoding (3 x hidden)</text>
+<text class="focal-sub" x="624" y="324">Linear + ReLU: embedding_dim</text>
+<text class="focal-sub" x="624" y="338">Linear: one logit</text>
+<text class="focal-sub" x="624" y="352">-&gt; gnn_emb_*, gnn_score</text>
+<path class="edge" d="M232 140L290 140" marker-end="url(#ah-model)"/>
+<path class="edge-soft" d="M232 290L356 290Q364 290 364 282L364 240" marker-end="url(#ah-model)"/>
+<text class="elabel" x="246" y="282">EDGE_SAGE ONLY</text>
+<path class="edge" d="M232 346L610 346" marker-end="url(#ah-model)"/>
+<text class="elabel" x="372" y="338">ENCODING OF THE SCORED ROW</text>
+<path class="edge" d="M606 158L646 158" marker-end="url(#ah-model)"/>
+<path class="edge" d="M731 176L731 252" marker-end="url(#ah-model)"/>
+</svg>

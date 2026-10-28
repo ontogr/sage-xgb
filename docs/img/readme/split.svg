@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="880" height="340" role="img" aria-labelledby="split-title split-desc">
+<title id="split-title">Day-aligned split</title>
+<desc id="split-desc">Days 1 to 6 are train, in three cross-fit blocks. Days 7 and 8 are validation, days 9 and 10 are test, and days 11 to 18 are the Tail, scored apart.</desc>
+<style>
+.panel{fill:#faf8f3;stroke:#e4e0d6}
+.title{font:600 16px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.stage{font:600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;letter-spacing:.08em;fill:#6b655f}
+.box{fill:#f3f0e9;stroke:#cbc6b9}
+.box-title{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.box-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.chip{fill:#ffffff;stroke:#cbc6b9}
+.chip-name{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.chip-tag{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8}
+.node{fill:#eaf0fe;stroke:#1d4ed8;stroke-width:1.25}
+.node-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.node-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f}
+.focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.25}
+.focal-name{font:600 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#ffffff}
+.focal-sub{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff;opacity:.9}
+.band{fill:none;stroke:#cbc6b9;stroke-dasharray:3 4}
+.edge{fill:none;stroke:#6b655f;stroke-width:1.5}
+.edge-blue{fill:none;stroke:#1d4ed8;stroke-width:1.5}
+.edge-dash{fill:none;stroke:#1d4ed8;stroke-width:1.5;stroke-dasharray:5 4}
+.edge-soft{fill:none;stroke:#6b655f;stroke-width:1.25;stroke-dasharray:5 4}
+.tick{stroke:#6b655f;stroke-width:1.25}
+.elabel{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#6b655f;letter-spacing:.04em}
+.elabel-blue{font:10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1d4ed8;letter-spacing:.04em}
+.note{font:12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#6b655f}
+.note-ink{font:600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;fill:#1f2937}
+.arrowhead{fill:#6b655f}
+.arrowhead-blue{fill:#1d4ed8}
+.dot{fill:#ffffff;stroke:#6b655f;stroke-width:1.5}
+.dot-focal{fill:#1d4ed8;stroke:#1d4ed8;stroke-width:1.5}
+.dot-open{fill:#faf8f3;stroke:#1d4ed8;stroke-width:1.75}
+.dot-num{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1f2937}
+.dot-num-focal{font:600 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#ffffff}
+</style>
+<defs><marker id="ah-split" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead" d="M0 0L10 5L0 10z"/></marker><marker id="ah-blue-split" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arrowhead-blue" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="panel" x="0.5" y="0.5" width="879" height="339" rx="10"/>
+<text class="title" x="28" y="36">Split by whole days</text>
+<text class="note" x="28" y="58">HI-Small spans 2022-09-01 to 2022-09-18. Every cut falls on a day boundary.</text>
+<line class="tick" x1="46" y1="106" x2="306" y2="106"/>
+<line class="tick" x1="46" y1="106" x2="46" y2="112"/>
+<line class="tick" x1="306" y1="106" x2="306" y2="112"/>
+<text class="stage" x="176" y="96" text-anchor="middle">TRAIN</text>
+<line class="tick" x1="310" y1="106" x2="394" y2="106"/>
+<line class="tick" x1="310" y1="106" x2="310" y2="112"/>
+<line class="tick" x1="394" y1="106" x2="394" y2="112"/>
+<text class="stage" x="352" y="96" text-anchor="middle">VALIDATION</text>
+<line class="tick" x1="398" y1="106" x2="482" y2="106"/>
+<line class="tick" x1="398" y1="106" x2="398" y2="112"/>
+<line class="tick" x1="482" y1="106" x2="482" y2="112"/>
+<text class="stage" x="440" y="96" text-anchor="middle">TEST</text>
+<line class="tick" x1="486" y1="106" x2="834" y2="106"/>
+<line class="tick" x1="486" y1="106" x2="486" y2="112"/>
+<line class="tick" x1="834" y1="106" x2="834" y2="112"/>
+<text class="stage" x="660" y="96" text-anchor="middle">TAIL</text>
+<rect class="node" x="46" y="120" width="84" height="44" rx="6"/>
+<text class="node-name" x="88" y="147" text-anchor="middle">Block 1</text>
+<rect class="node" x="134" y="120" width="84" height="44" rx="6"/>
+<text class="node-name" x="176" y="147" text-anchor="middle">Block 2</text>
+<rect class="node" x="222" y="120" width="84" height="44" rx="6"/>
+<text class="node-name" x="264" y="147" text-anchor="middle">Block 3</text>
+<rect class="box" x="310" y="120" width="84" height="44" rx="6"/>
+<text class="box-title" x="352" y="147" text-anchor="middle">Val</text>
+<rect class="focal" x="398" y="120" width="84" height="44" rx="6"/>
+<text class="focal-name" x="440" y="147" text-anchor="middle">Test</text>
+<rect class="box" x="486" y="120" width="348" height="44" rx="6"/>
+<text class="box-title" x="660" y="147" text-anchor="middle">Tail, scored apart</text>
+<text class="box-sub" x="66" y="184" text-anchor="middle">1</text>
+<text class="box-sub" x="110" y="184" text-anchor="middle">2</text>
+<text class="box-sub" x="154" y="184" text-anchor="middle">3</text>
+<text class="box-sub" x="198" y="184" text-anchor="middle">4</text>
+<text class="box-sub" x="242" y="184" text-anchor="middle">5</text>
+<text class="box-sub" x="286" y="184" text-anchor="middle">6</text>
+<text class="box-sub" x="330" y="184" text-anchor="middle">7</text>
+<text class="box-sub" x="374" y="184" text-anchor="middle">8</text>
+<text class="box-sub" x="418" y="184" text-anchor="middle">9</text>
+<text class="box-sub" x="462" y="184" text-anchor="middle">10</text>
+<text class="box-sub" x="506" y="184" text-anchor="middle">11</text>
+<text class="box-sub" x="550" y="184" text-anchor="middle">12</text>
+<text class="box-sub" x="594" y="184" text-anchor="middle">13</text>
+<text class="box-sub" x="638" y="184" text-anchor="middle">14</text>
+<text class="box-sub" x="682" y="184" text-anchor="middle">15</text>
+<text class="box-sub" x="726" y="184" text-anchor="middle">16</text>
+<text class="box-sub" x="770" y="184" text-anchor="middle">17</text>
+<text class="box-sub" x="814" y="184" text-anchor="middle">18</text>
+<text class="box-sub" x="28" y="206">day number since 2022-09-01</text>
+<rect class="node" x="28" y="226" width="200" height="96" rx="6"/>
+<text class="node-name" x="42" y="250">Train</text>
+<text class="node-sub" x="42" y="270">days 1-6, three blocks</text>
+<text class="node-sub" x="42" y="284">fits GraphSAGE GNNs</text>
+<text class="node-sub" x="42" y="298">trains XGBoost on days 3-6</text>
+<rect class="box" x="240" y="226" width="200" height="96" rx="6"/>
+<text class="box-title" x="254" y="250">Validation</text>
+<text class="box-sub" x="254" y="270">days 7-8</text>
+<text class="box-sub" x="254" y="284">early stopping</text>
+<text class="box-sub" x="254" y="298">decision threshold</text>
+<rect class="focal" x="452" y="226" width="200" height="96" rx="6"/>
+<text class="focal-name" x="466" y="250">Test</text>
+<text class="focal-sub" x="466" y="270">days 9-10</text>
+<text class="focal-sub" x="466" y="284">opened once, by report</text>
+<text class="focal-sub" x="466" y="298">never used to tune</text>
+<rect class="box" x="664" y="226" width="188" height="96" rx="6"/>
+<text class="box-title" x="678" y="250">Tail</text>
+<text class="box-sub" x="678" y="270">days 11-18, 1,108 rows</text>
+<text class="box-sub" x="678" y="284">most rows are laundering</text>
+<text class="box-sub" x="678" y="298">reported as its own slice</text>
+</svg>
