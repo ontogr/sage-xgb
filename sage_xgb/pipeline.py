@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 STAGE_FUNCTIONS: dict[str, str] = {
     "download": "sage_xgb.data.download:run",
     "prepare": "sage_xgb.data.prepare:run",
+    "features": "sage_xgb.features.table:run",
 }
 
 _StageFunction = Callable[[Config], dict[str, float]]

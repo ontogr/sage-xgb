@@ -19,14 +19,16 @@ from sage_xgb import __version__
 from sage_xgb.config import Config
 
 
-PIPELINE_STAGES: tuple[str, ...] = ("prepare",)
+PIPELINE_STAGES: tuple[str, ...] = ("prepare", "features")
 
 _SECTIONS: dict[str, tuple[str, ...]] = {
     "prepare": ("data", "split"),
+    "features": ("features",),
 }
 
 _UPSTREAM: dict[str, tuple[str, ...]] = {
     "prepare": (),
+    "features": ("prepare",),
 }
 
 MANIFEST_NAME = "manifest.json"
