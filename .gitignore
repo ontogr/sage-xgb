@@ -218,3 +218,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Raw AMLworld data (CDLA-Sharing-1.0, large); the CI sample lives in tests/fixtures/
+/data/
+
+# Pipeline outputs, the local MLflow store and the wheel test environment
+artifacts/
+mlflow.db
+mlruns/
+mlartifacts/
+reports/
+.wheelenv/
