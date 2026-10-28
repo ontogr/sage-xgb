@@ -19,6 +19,7 @@ STAGE_FUNCTIONS: dict[str, str] = {
     "features": "sage_xgb.features.table:run",
     "gnn": "sage_xgb.gnn.crossfit:run",
     "train-xgb": "sage_xgb.train_xgb:run",
+    "tune": "sage_xgb.tune:run",
     "report": "sage_xgb.evaluation.report:run",
 }
 

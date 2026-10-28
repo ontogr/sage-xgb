@@ -19,6 +19,7 @@ STAGE_COMMANDS: dict[str, str] = {
     "features": "Build the account window feature table",
     "gnn": "Fit the cross-fit GNNs and write out-of-fold scores",
     "train-xgb": "Train XGBoost and write the model bundle",
+    "tune": "Search hyperparameters on validation within a time limit",
     "report": "Score test and Tail once and write the report",
 }
 

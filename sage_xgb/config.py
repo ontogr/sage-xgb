@@ -125,6 +125,37 @@ class TrackingConfig(_Section):
     experiment: str = "sage-xgb"
 
 
+class SpaceEntry(_Section):
+    """One searched hyperparameter."""
+
+    kind: Literal["int", "float", "log_float", "categorical"]
+    low: float | None = None
+    high: float | None = None
+    choices: list[Any] | None = None
+
+
+def _default_space() -> dict[str, SpaceEntry]:
+    return {
+        "gnn.hidden": SpaceEntry(kind="categorical", choices=[16, 32, 64]),
+        "gnn.lr": SpaceEntry(kind="log_float", low=0.001, high=0.02),
+        "gnn.neg_sample_rate": SpaceEntry(kind="log_float", low=0.01, high=0.2),
+        "xgb.max_depth": SpaceEntry(kind="int", low=3, high=9),
+        "xgb.learning_rate": SpaceEntry(kind="log_float", low=0.03, high=0.3),
+        "xgb.subsample": SpaceEntry(kind="float", low=0.6, high=1.0),
+        "xgb.colsample_bytree": SpaceEntry(kind="float", low=0.5, high=1.0),
+        "xgb.min_child_weight": SpaceEntry(kind="log_float", low=1.0, high=20.0),
+        "xgb.reg_lambda": SpaceEntry(kind="log_float", low=0.1, high=10.0),
+    }
+
+
+class TuneConfig(_Section):
+    """Optuna study limits and the searched keys (dotted config paths)."""
+
+    n_trials: int = 20
+    timeout_minutes: float = 10.0
+    space: dict[str, SpaceEntry] = Field(default_factory=_default_space)
+
+
 class Config(_Section):
     """The full run configuration."""
 
@@ -137,6 +168,7 @@ class Config(_Section):
     xgb: XgbConfig = Field(default_factory=XgbConfig)
     gnn: GnnConfig = Field(default_factory=GnnConfig)
     tracking: TrackingConfig = Field(default_factory=TrackingConfig)
+    tune: TuneConfig = Field(default_factory=TuneConfig)
 
 
 def _merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
