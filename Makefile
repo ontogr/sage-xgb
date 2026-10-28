@@ -1,4 +1,4 @@
-.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample train train-sample tune report mlflow-ui
+.PHONY: help sync test test-e2e test-integration cov cov-report lint-typing lint-style lint-fmt lint-check lint-typos lint-actions lint-all security-bandit security-audit security build wheel-test clean download sample train train-sample tune report mlflow-ui docker-build
 
 export UV_LOCKED = 1
 
@@ -31,6 +31,7 @@ help:
 	@echo "  make tune             - Tune hyperparameters on HI-Small"
 	@echo "  make report           - Score the test and Tail splits once"
 	@echo "  make mlflow-ui        - Open the MLflow UI on the local SQLite store"
+	@echo "  make docker-build     - Build the train image"
 
 sync:
 	uv sync --locked --all-groups --all-extras
@@ -130,3 +131,6 @@ report:
 
 mlflow-ui:
 	uv run mlflow ui --backend-store-uri sqlite:///artifacts/mlflow.db
+
+docker-build:
+	docker build --platform linux/amd64 --target train -t sage-xgb:train .
